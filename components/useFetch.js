@@ -6,7 +6,7 @@ async function getAPIData(URL) {
   return data;
 }
 function useFetch(URL) {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   useEffect(() => {
