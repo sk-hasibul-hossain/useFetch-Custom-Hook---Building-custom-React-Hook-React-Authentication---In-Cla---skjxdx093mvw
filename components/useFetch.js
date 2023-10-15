@@ -1,25 +1,27 @@
+import { useEffect, useState } from "react";
+import axios from 'axios';
+
 //write your code here
-import { useState, useEffect } from "react";
-async function getAPIData(URL) {
-  const response = await fetch(URL);
-  const data = await response.json();
-  return data;
-}
-function useFetch(URL) {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  useEffect(() => {
-    getAPIData(URL)
-      .then((responseData) => {
-        setData(responseData);
-      })
-      .catch((e) => {
-        setData([]);
-        setError(e);
-      });
+
+ async function callApiHere(setLoading,setData,setError,url){
+    try{
+        const response=await axios.get(url);
+        setData(response.data);
+    }
+    catch(errorMessage){
+        setError(errorMessage)
+    }
     setLoading(false);
-  }, [URL]);
-  return { data, loading, error };
 }
-export default useFetch;
+
+function useFetch(url){
+ const [data,setData]=useState(null);
+ const [loading,setLoading]=useState(true);
+ const [error,setError]=useState(null);
+
+ useEffect(()=>{
+    callApiHere(setLoading,setData,setError,url);
+ },[url])
+ return {data,loading,error}
+}
+export default useFetch
